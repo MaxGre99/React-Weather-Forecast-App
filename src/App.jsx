@@ -37,6 +37,11 @@ const sliderSettings = {
   ],
 };
 
+/* const dayOrNight = () => {
+  const nowHour = new Date().getHours();
+  return (6 > nowHour > 18) ? 'n' : 'd';
+}; */
+
 const App = () => {
   // Состояние модалки
   const [show, setShow] = useState(false);
@@ -59,11 +64,10 @@ const App = () => {
       const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`);
       setWeatherConditions(response.data);
       setLoading(false);
+      console.log(weatherConditions);
     };
     getConditions();
   }, [coordinates]);
-
-
 
   if (!loading) {
     return (
@@ -88,12 +92,12 @@ const App = () => {
           <h6>
             <i className="bi bi-geo-alt-fill"></i> {settedCity}
           </h6>
-          <h2>Cloudy</h2>
-          <h1 className="temperature">{weatherConditions.main.temp}°C</h1>
+          <h2>{weatherConditions.weather[0].main}</h2>
+          <h1 className="temperature">{Math.floor(weatherConditions.main.temp)}°C</h1>
           <CurrDate />
         </Col>
         <Col className="cloud" xs={4} sm={6} xl={4}>
-          <i className="bi bi-cloud-sun-fill"></i>
+          <Image src={`https://openweathermap.org/img/wn/${weatherConditions.weather[0].icon}@2x.png`} />
         </Col>
       </Row>
     </Container>
@@ -197,12 +201,12 @@ const App = () => {
             <p>
               <i className="bi bi-thermometer-half"></i> Real Feel
               <br />
-              <span>30C</span>
+              <span>{Math.floor(weatherConditions.main.feels_like)}°C</span>
             </p>
             <p>
               <i className="bi bi-wind"></i> Wind
               <br />
-              <span>0.8 km/hr</span>
+              <span>{weatherConditions.wind.speed} km/hr</span>
             </p>
             <p className="rain">
               <i className="bi bi-droplet-fill"></i> Chance of rain
