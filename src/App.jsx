@@ -1,16 +1,24 @@
 import "./App.css";
-import { Container, Row, Col, Card, Carousel, Image } from "react-bootstrap";
-import React from "react";
+import { Container, Row, Col, Card, Image, Modal, Button } from "react-bootstrap";
+import React, {useState, useEffect} from "react";
+import axios from "axios";
 import Slider from "react-slick";
 import Fall from "./public/osen_les_park_128379_1920x1080.jpg";
 import Waterfall from "./public/vodopad_obryv_kamennyj_141850_1920x1080.jpg";
 import Sakura from "./public/most_reka_techenie_100663_1920x1080.jpg";
 import River from "./public/lodka_gory_ozero_135258_1920x1080.jpg";
 import dayWeather from "./public/dayWeather.jpeg";
+import CurrDate from "./Date";
+import CurrTime from "./Time";
+import CityAutocomplete from "./CityAutocomplete";
 // import weekWeather from "./public/cloudy.png";
 
-var settings = {
-  className: "Zaeb",
+// API Key
+const apiKey = "2a1415da8e78fd27494cf3257836cd32";
+
+// Настройки слайдера
+const sliderSettings = {
+  className: "Slider",
   centerMode: true,
   slidesToShow: 5,
   infinite: true,
@@ -19,7 +27,7 @@ var settings = {
     {
       breakpoint: 900,
       settings: {
-        className: "Zaeb",
+        className: "Slider",
         centerMode: true,
         centerPadding: "0",
         slidesToShow: 3,
@@ -29,17 +37,60 @@ var settings = {
   ],
 };
 
-const App = () => (
-  <div className="app">
+const App = () => {
+  // Состояние модалки
+  const [show, setShow] = useState(false);
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
+  //Город начальный и его изменение
+  const [settedCity, setCity] = useState("New York");
+
+  // Координаты
+  const [coordinates, setCoordinates] = useState({lat: '40.7127281', lon: '-74.0060152'});
+
+  //Показания погоды 
+  const [loading, setLoading] = useState(true);
+  const [weatherConditions, setWeatherConditions] = useState({});
+
+  useEffect(() => {
+    const { lat, lon } = coordinates; 
+    const getConditions = async () => {
+      const response = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`);
+      setWeatherConditions(response.data);
+      setLoading(false);
+    };
+    getConditions();
+  }, [coordinates]);
+
+
+
+  if (!loading) {
+    return (
+    <div className="app">
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Choose a city</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><CityAutocomplete settedCity={settedCity} setCity={setCity} setCoordinates={setCoordinates} setShow={setShow} apiKey={apiKey}/></Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
     <Container fluid>
       <Row className="d-flex">
         <Col className="info" xs={6} sm={4} xl={4}>
           <h6>
-            <i className="bi bi-geo-alt-fill"></i> New York
+            <i className="bi bi-geo-alt-fill"></i> {settedCity}
           </h6>
           <h2>Cloudy</h2>
-          <h1 className="temperature">26C</h1>
-          <p>Sunday | 12 Dec 2023</p>
+          <h1 className="temperature">{weatherConditions.main.temp}°C</h1>
+          <CurrDate />
         </Col>
         <Col className="cloud" xs={4} sm={6} xl={4}>
           <i className="bi bi-cloud-sun-fill"></i>
@@ -57,10 +108,11 @@ const App = () => (
           <a href="/explore">
             <i className="bi bi-compass-fill"></i>explore
           </a>
-          <a href="/weather">
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a href="#" onClick={handleShow}>
             <i className="bi bi-geo-alt-fill"></i>cities
           </a>
-          <a href="/weather">
+          <a href="/settings">
             <i className="bi bi-gear-fill"></i>settings
           </a>
         </Col>
@@ -107,7 +159,7 @@ const App = () => (
           </div>
         </Col>
         <Col className="weekly d-flex" xs={12} sm={3} md={3} xl={3}>
-          <Slider {...settings}>
+          <Slider {...sliderSettings}>
             <div className="slickSlide">
               <p>MON</p>
               <i className="bi bi-cloud-sun-fill"></i>
@@ -138,7 +190,7 @@ const App = () => (
             </div>
           </Slider>
           <p className="time">
-            <i className="bi bi-clock-fill"></i> 8:00 PM GMT
+            <i className="bi bi-clock-fill"></i> <CurrTime />
           </p>
           <div className="airConditions d-flex">
             <p className="airConditionsTitle">AIR CONDITIONS</p>
@@ -168,5 +220,7 @@ const App = () => (
     </Container>
   </div>
 );
+};
+};
 
 export default App;

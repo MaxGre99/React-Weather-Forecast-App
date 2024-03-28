@@ -1,14 +1,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&display=swap');
 
+:root {
+  --main-color: rgba(214, 158, 54, 1);
+  --second-color: rgba(222, 171, 77, 1);
+  --text-color: #FFFFFF;
+}
+
 .app {
-  background-color: rgba(214, 158, 54, 1);
+  background-color: var(--main-color);
   width: 100vw;
   height: 100vh;
   font-family: Inter, sans-serif;
-  color: #FFFFFF;
+  color: var(--text-color);
   border-radius: 2em;
 }
 
+.modal-content {
+  background-color: var(--second-color);
+  color: var(--text-color);
+}
+
+.modal-footer > .btn-secondary {
+  background-color: #000;
+  color: var(--text-color);
+  border-color: #000;
+}
+
+.modal-footer > .btn-primary {
+  background-color: var(--main-color);
+  color: var(--text-color);
+  border-color: #000;
+}
 
 /* .d-flex {
   flex-wrap: wrap;
@@ -17,25 +39,36 @@
 .row.d-flex {
   justify-content: space-around;
   align-items: start;
+  max-height: 50vh;
 }
 
 .info {
   padding-top: 5vh;
   padding-bottom: 0;
-  /* border: 2px solid #000; */
+  border: 2px solid #000;
+  font-size: 1vw;
 }
 
-.info > h6 {
-  margin-bottom: 1.5em;
+.info > a {
+  margin-bottom: 2vh;
+  font-size: 1.5vw
+}
+
+.info h2 {
+  font-size: 2.5vw;
+} 
+
+.info h1 {
+  font-size: 3vw;
 }
 
 .temperature {
-  margin-top: 2em;
+  margin-top: 10vh;
 }
 
 .cloud {
   text-align: end;
-  font-size: 12em;
+  font-size: 12vw;
   border: 2px solid #000;
   padding-bottom: 0;
 }
@@ -43,7 +76,7 @@
 .tabs {
   margin-left: 3vw;
   margin-right: 3vw;
-  height: 50%;
+  max-height: 50vh;
 }
 
 .navigation {
@@ -51,7 +84,7 @@
   border: 2px solid #000;
   justify-content: center;
   align-items: center;
-  background-color: rgba(222, 171, 77, 1);
+  background-color: var(--second-color);
   border-radius: 5em;
   padding: 3vh;
   height: 100%;
@@ -69,11 +102,11 @@
   text-align: center;
   margin: 0.5vw;
   text-decoration: none;
-  color: #FFFFFF;
+  color: var(--text-color);
 }
 
 .navigation > a > i {
-  font-size: 3em;
+  font-size: 1.7vw;
 }
 
 /* .active {
@@ -86,8 +119,8 @@
 } */
 
 .avatar {
-  width: 3em;
-  height: 3em;
+  width: 3vw;
+  height: 3vw;
   border-radius: 50%;
   background-image: url('./public/cute-head-penguin-animal-cartoon_251661-309.avif');
   background-size: cover;
@@ -107,7 +140,7 @@
 .activities {
   border: 2px solid #000;
   flex-direction: column;
-  background-color: rgba(222, 171, 77, 1);
+  background-color: var(--second-color);
   border-radius: 5em;
   height: 49%;
   justify-content: space-around;
@@ -154,7 +187,7 @@
 .dailyForecast {
   flex-direction: column;
   border: 2px solid #000;
-  background-color: rgba(222, 171, 77, 1);
+  background-color: var(--second-color);
   border-radius: 5em;
   height: 49%;
   justify-content: space-evenly;
@@ -179,7 +212,7 @@
 .weekly {
   border: 2px solid #000;
   flex-direction: column;
-  background-color: rgba(222, 171, 77, 1);
+  background-color: var(--second-color);
   border-radius: 5em;
   height: 100%;
   justify-content: space-around;
@@ -201,7 +234,7 @@
   margin-top: 1vh;
 } */
 
-.Zaeb {
+.Slider {
   border: 2px solid #000;
   width: 80%;
   height: 30%;
@@ -216,12 +249,12 @@
 }
 
 /* @media (width < 900px) {
-  .Zaeb {
+  .Slider {
     margin-top: 5vh;
   }
 } */
 
-.Zaeb .slickSlide {
+.Slider .slickSlide {
   border: 2px solid #000;
   font-size: 1vw;
   margin-top: 1vw;
@@ -229,7 +262,7 @@
 }
 
 @media (width < 900px) {
-  .Zaeb .slickSlide{
+  .Slider .slickSlide{
     padding-top: 1vw;
     padding-bottom: 0.8vw;
     font-size: 1vh;
@@ -290,7 +323,7 @@
 }
 
 .airConditionsTitle {
-  font-size: 1em;
+  font-size: 1vw;
   font-weight: bold;
 }
 
@@ -318,12 +351,12 @@
 } */
 
 .airConditions p {
-  font-size: 2.5vh;
+  font-size: 1.1vw;
 }
 
 @media (width < 900px) {
   .airConditions p {
-    font-size: 2.2vw;
+    font-size: 2vw;
     padding-top: 1vh;
   }
 }
