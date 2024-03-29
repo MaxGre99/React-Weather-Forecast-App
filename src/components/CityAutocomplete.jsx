@@ -8,6 +8,8 @@ const CityAutocomplete = ({
 	setCoordinates,
 	setShow,
 	apiKey,
+	setError,
+	setToast,
 }) => {
 	const [changingCity, setChangingCity] = useState(settedCity);
 	const [citiesList, setCitiesList] = useState([]);
@@ -39,12 +41,13 @@ const CityAutocomplete = ({
 					});
 					setCitiesList(cities);
 				} catch (err) {
-					console.error(err);
+					setError(err);
+					setToast(true);
 				}
 			}
 		};
 		handleCityFilter(changingCity);
-	}, [changingCity, apiKey]);
+	}, [changingCity, apiKey, setError, setToast]);
 
 	const handleCityClick = (chosenCity, lat, lon) => {
 		setCity(chosenCity);
@@ -66,8 +69,7 @@ const CityAutocomplete = ({
 						key={index}
 						onClick={() => handleCityClick(city.name, city.lat, city.lon)}>
 						{city.name}
-						{city.state && `, ${city.state}`}{" "}
-						{city.country}
+						{city.state && `, ${city.state}`} {city.country}
 					</ListGroup.Item>
 				))}
 			</ListGroup>

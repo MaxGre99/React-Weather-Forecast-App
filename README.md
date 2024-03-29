@@ -1,12 +1,16 @@
-# Getting Started with Create React App
+# Weather App on React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This app can show you weather in the chosen city.
 
 ## Available Scripts
 
 In the project directory, you can run:
 
-### `npm start`
+### `make install`
+
+Intalls all required dependencies.
+
+### `make start`
 
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
@@ -14,12 +18,7 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
+### `make build`
 
 Builds the app for production to the `build` folder.\
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -27,44 +26,36 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
 ## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Interface
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To change a city, you need to click the 'Citites' button or the geotag in top-left corner. Then you have to type the city you want (there is autocomplete) and tap on the wanted city. If you won't tap on the suggested cities, nothing will happen.
 
-### Code Splitting
+### Start City
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+The start city is New York, all info is from there.
 
-### Analyzing the Bundle Size
+### Timer
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Always show you your current time + GMT. Maybe I'll fix it later.
 
-### Making a Progressive Web App
+### Slider 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Slider on the right shows you approximate weather for 5 next days. You can control the chosen day with arrows or swipe them.
 
-### Advanced Configuration
+### Activities 
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Now it's just static pictures.
 
-### Deployment
+### 24-hour forecast
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Couldn't find it in suggested API, so left a funny picture. For the same reason UV Index replaced with Air Pollution Index.
 
-### `npm run build` fails to minify
+### Adaptive Design
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+I'm a newbie in adaptability, so it can be not so good as you wait. Originally made for 24'' 1080p monitor and shrinked down to 720p, but still...
+
+### Favourite citites
+
+Will be added later.

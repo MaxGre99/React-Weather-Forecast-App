@@ -1,4 +1,4 @@
-import "./App.css";
+import "../css/App.css";
 import {
 	Container,
 	Row,
@@ -7,19 +7,19 @@ import {
 	Image,
 	Modal,
 	Button,
+	Toast,
 } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Slider from "react-slick";
-import Fall from "./public/osen_les_park_128379_1920x1080.jpg";
-import Waterfall from "./public/vodopad_obryv_kamennyj_141850_1920x1080.jpg";
-import Sakura from "./public/most_reka_techenie_100663_1920x1080.jpg";
-import River from "./public/lodka_gory_ozero_135258_1920x1080.jpg";
-import dayWeather from "./public/dayWeather.jpeg";
+import Fall from "../img/osen_les_park_128379_1920x1080.jpg";
+import Waterfall from "../img/vodopad_obryv_kamennyj_141850_1920x1080.jpg";
+import Sakura from "../img/most_reka_techenie_100663_1920x1080.jpg";
+import River from "../img/lodka_gory_ozero_135258_1920x1080.jpg";
+import dayWeather from "../img/dayWeather.jpeg";
 import CurrDate from "./Date";
 import CurrTime from "./Time";
 import CityAutocomplete from "./CityAutocomplete";
-// import weekWeather from "./public/cloudy.png";
 
 // API Key
 const apiKey = "2a1415da8e78fd27494cf3257836cd32";
@@ -50,6 +50,11 @@ const sliderSettings = {
 }; */
 
 const App = () => {
+	// Настройки "тоста" ошибок
+	const [toast, setToast] = useState(false);
+	const [error, setError] = useState("");
+	const handleHide = () => setToast(false);
+
 	// Состояние модалки
 	const [show, setShow] = useState(false);
 	const handleShow = () => setShow(true);
@@ -73,23 +78,28 @@ const App = () => {
 	useEffect(() => {
 		const { lat, lon } = coordinates;
 		const getConditions = async () => {
-			const weatherResponse = await axios.get(
-				`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
-			);
-			const pollutionResponse = await axios.get(
-				`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`
-			);
-			const weeklyResponse = await axios.get(
-				`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&cnt=40&appid=${apiKey}`
-			);
-			const indexes = [4, 12, 20, 28, 36];
-			const indexedWeekly = weeklyResponse.data.list.filter((item, index) =>
-				indexes.includes(index)
-			);
-			setWeatherConditions(weatherResponse.data);
-			setAirPollution(pollutionResponse.data);
-			setWeeklyForecast(indexedWeekly);
-			setLoading(false);
+			try {
+				const weatherResponse = await axios.get(
+					`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`
+				);
+				const pollutionResponse = await axios.get(
+					`http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${apiKey}`
+				);
+				const weeklyResponse = await axios.get(
+					`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=metric&cnt=40&appid=${apiKey}`
+				);
+				const indexes = [4, 12, 20, 28, 36];
+				const indexedWeekly = weeklyResponse.data.list.filter((item, index) =>
+					indexes.includes(index)
+				);
+				setWeatherConditions(weatherResponse.data);
+				setAirPollution(pollutionResponse.data);
+				setWeeklyForecast(indexedWeekly);
+				setLoading(false);
+			} catch (err) {
+				setError(err);
+				setToast(true);
+			}
 		};
 		getConditions();
 	}, [coordinates]);
@@ -107,6 +117,18 @@ const App = () => {
 	if (!loading) {
 		return (
 			<div className="app">
+				<Toast
+					className="d-inline-block m-1"
+					bg="danger"
+					key={0}
+					show={toast}
+					onHide={handleHide}>
+					<Toast.Header>
+						<i class="bi bi-cloud-lightning-rain-fill">&nbsp;</i>
+						<strong className="me-auto"> Weather App</strong>
+					</Toast.Header>
+					<Toast.Body>{error}</Toast.Body>
+				</Toast>
 				<Modal show={show} onHide={handleClose}>
 					<Modal.Header closeButton>
 						<Modal.Title>Choose a city</Modal.Title>
@@ -118,6 +140,8 @@ const App = () => {
 							setCoordinates={setCoordinates}
 							setShow={setShow}
 							apiKey={apiKey}
+							setError={setError}
+							setToast={setToast}
 						/>
 					</Modal.Body>
 					<Modal.Footer>
@@ -267,7 +291,7 @@ const App = () => {
 									<span>{weeklyForecast[0].pop * 100} %</span>
 								</p>
 								<p>
-									<i class="bi bi-lungs-fill"></i> Air Pollution Index
+									<i className="bi bi-lungs-fill"></i> Air Pollution Index
 									<br />
 									<span>{airPollution.list[0].main.aqi}</span>
 								</p>
