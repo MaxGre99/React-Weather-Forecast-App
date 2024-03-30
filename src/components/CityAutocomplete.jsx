@@ -64,30 +64,23 @@ const CityAutocomplete = ({
 		setShowModal(false);
 	};
 
-	const handleKeyPress = (e) => {
-		if (e.key === "Enter") {
-			e.preventDefault();
-		}
-	};
-
 	const dispatch = useDispatch();
 	const { addCity, removeCity } = actions;
 	const favouriteCities = Object.values(useSelector(selectors.selectEntities));
 
 	return (
-		<Form>
+		<Form onSubmit={(e) => e.preventDefault()}>
 			<FormControl
 				type="text"
 				placeholder="Введите название города"
 				value={changingCity}
 				onChange={(e) => setChangingCity(e.target.value)}
-				onKeyUp={handleKeyPress}
 				ref={inputEl}
 			/>
 			{favouriteCities && favouriteCities.length > 0 ? (
 				<ListGroup>
-					{favouriteCities.map((favouriteCity, index) => (
-						<ListGroup.Item key={index}
+					{favouriteCities.map((favouriteCity) => (
+						<ListGroup.Item key={favouriteCity.lat}
 						style={{ display: "flex", justifyContent: "space-between" }}
 						onClick={() => handleCityClick(favouriteCity.name, favouriteCity.lat, favouriteCity.lon)}>
 							<span>
@@ -97,7 +90,7 @@ const CityAutocomplete = ({
 							className="bi bi-bookmark-fill"
 							onClick={(e) => {
 								e.stopPropagation();
-								dispatch(removeCity(favouriteCity.name));
+								dispatch(removeCity(favouriteCity.lat));
 							}}></i>
 						</ListGroup.Item>
 					))}
@@ -107,9 +100,9 @@ const CityAutocomplete = ({
 			)}
 			<hr />
 			<ListGroup>
-				{citiesList.map((city, index) => (
+				{citiesList.map((city) => (
 					<ListGroup.Item
-						key={index}
+						key={city.lat}
 						onClick={() => handleCityClick(city.name, city.lat, city.lon)}
 						style={{ display: "flex", justifyContent: "space-between" }}>
 						<span>

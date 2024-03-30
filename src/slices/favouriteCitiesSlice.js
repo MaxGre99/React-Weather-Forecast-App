@@ -1,7 +1,7 @@
 import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
 
 const favouriteCitiesAdapter = createEntityAdapter({
-	selectId: (city) => city.name,
+	selectId: (city) => city.lat,
 });
 
 const initialState = favouriteCitiesAdapter.getInitialState();

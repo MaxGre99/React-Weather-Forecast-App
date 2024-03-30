@@ -12,7 +12,6 @@ import CurrDate from "./Date";
 import CurrTime from "./Time";
 import ChoseCityModal from "./ChoseCityModal";
 import ToastError from "./ToastError";
-// import CityAutocomplete from "./CityAutocomplete";
 
 // API Key
 const apiKey = "2a1415da8e78fd27494cf3257836cd32";
