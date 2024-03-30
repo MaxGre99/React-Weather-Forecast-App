@@ -1,14 +1,5 @@
 import "../css/App.css";
-import {
-	Container,
-	Row,
-	Col,
-	Card,
-	Image,
-	Modal,
-	Button,
-	Toast,
-} from "react-bootstrap";
+import { Container, Row, Col, Card, Image } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Slider from "react-slick";
@@ -19,7 +10,9 @@ import River from "../img/lodka_gory_ozero_135258_1920x1080.jpg";
 import dayWeather from "../img/dayWeather.jpeg";
 import CurrDate from "./Date";
 import CurrTime from "./Time";
-import CityAutocomplete from "./CityAutocomplete";
+import ChoseCityModal from "./ChoseCityModal";
+import ToastError from "./ToastError";
+// import CityAutocomplete from "./CityAutocomplete";
 
 // API Key
 const apiKey = "2a1415da8e78fd27494cf3257836cd32";
@@ -44,21 +37,16 @@ const sliderSettings = {
 	],
 };
 
-/* const dayOrNight = () => {
-  const nowHour = new Date().getHours();
-  return (6 > nowHour > 18) ? 'n' : 'd';
-}; */
-
 const App = () => {
 	// Настройки "тоста" ошибок
-	const [toast, setToast] = useState(false);
+	const [showToast, setShowToast] = useState(false);
 	const [error, setError] = useState("");
-	const handleHide = () => setToast(false);
+	const handleCloseToast = () => setShowToast(false);
 
 	// Состояние модалки
-	const [show, setShow] = useState(false);
-	const handleShow = () => setShow(true);
-	const handleClose = () => setShow(false);
+	const [showModal, setShowModal] = useState(false);
+	const handleShowModal = () => setShowModal(true);
+	const handleCloseModal = () => setShowModal(false);
 
 	//Город начальный и его изменение
 	const [settedCity, setCity] = useState("New York");
@@ -74,6 +62,7 @@ const App = () => {
 	const [weatherConditions, setWeatherConditions] = useState({});
 	const [airPollution, setAirPollution] = useState({});
 	const [weeklyForecast, setWeeklyForecast] = useState({});
+	console.log(weatherConditions);
 
 	useEffect(() => {
 		const { lat, lon } = coordinates;
@@ -95,10 +84,11 @@ const App = () => {
 				setWeatherConditions(weatherResponse.data);
 				setAirPollution(pollutionResponse.data);
 				setWeeklyForecast(indexedWeekly);
+				// this one is for successful toast (look at the end of ToastError.jsx): setShowToast(true);
 				setLoading(false);
 			} catch (err) {
 				setError(err);
-				setToast(true);
+				setShowToast(true);
 			}
 		};
 		getConditions();
@@ -117,46 +107,26 @@ const App = () => {
 	if (!loading) {
 		return (
 			<div className="app">
-				<Toast
-					className="d-inline-block m-1"
-					bg="danger"
-					key={0}
-					show={toast}
-					onHide={handleHide}>
-					<Toast.Header>
-						<i class="bi bi-cloud-lightning-rain-fill">&nbsp;</i>
-						<strong className="me-auto"> Weather App</strong>
-					</Toast.Header>
-					<Toast.Body>{error}</Toast.Body>
-				</Toast>
-				<Modal show={show} onHide={handleClose}>
-					<Modal.Header closeButton>
-						<Modal.Title>Choose a city</Modal.Title>
-					</Modal.Header>
-					<Modal.Body>
-						<CityAutocomplete
-							settedCity={settedCity}
-							setCity={setCity}
-							setCoordinates={setCoordinates}
-							setShow={setShow}
-							apiKey={apiKey}
-							setError={setError}
-							setToast={setToast}
-						/>
-					</Modal.Body>
-					<Modal.Footer>
-						<Button variant="secondary" onClick={handleClose}>
-							Close
-						</Button>
-						<Button variant="primary" onClick={handleClose}>
-							Save Changes
-						</Button>
-					</Modal.Footer>
-				</Modal>
+				<ToastError
+					showToast={showToast}
+					handleCloseToast={handleCloseToast}
+					error={error}
+				/>
+				<ChoseCityModal
+					showModal={showModal}
+					setShowModal={setShowModal}
+					handleCloseModal={handleCloseModal}
+					settedCity={settedCity}
+					setCity={setCity}
+					setCoordinates={setCoordinates}
+					apiKey={apiKey}
+					setError={setError}
+					setShowToast={setShowToast}
+				/>
 				<Container fluid>
 					<Row className="d-flex">
 						<Col className="info" xs={6} sm={4} xl={4}>
-							<h6 onClick={handleShow}>
+							<h6 onClick={handleShowModal}>
 								<i className="bi bi-geo-alt-fill"></i> {settedCity}
 							</h6>
 							<h2>{weatherConditions.weather[0].main}</h2>
@@ -184,7 +154,7 @@ const App = () => {
 								<i className="bi bi-compass-fill"></i>explore
 							</a>
 							{/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-							<a href="#" onClick={handleShow}>
+							<a href="#" onClick={handleShowModal}>
 								<i className="bi bi-geo-alt-fill"></i>cities
 							</a>
 							<a href="/settings">
