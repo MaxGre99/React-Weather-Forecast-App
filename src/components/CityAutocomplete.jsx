@@ -73,7 +73,6 @@ const CityAutocomplete = ({
 			<FormControl
 				type="text"
 				placeholder="Введите название города"
-				value={changingCity}
 				onChange={(e) => setChangingCity(e.target.value)}
 				ref={inputEl}
 			/>
