@@ -39,6 +39,10 @@
 	color: var(--text-color);
 }
 
+.italic-text {
+	font-style: italic;
+}
+
 .row.d-flex {
 	justify-content: space-around;
 	align-items: start;

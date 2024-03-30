@@ -76,26 +76,38 @@ const CityAutocomplete = ({
 				onChange={(e) => setChangingCity(e.target.value)}
 				ref={inputEl}
 			/>
+			<h4 className="pt-2">Bookmarked Cities:</h4>
 			{favouriteCities && favouriteCities.length > 0 ? (
 				<ListGroup>
 					{favouriteCities.map((favouriteCity) => (
-						<ListGroup.Item key={favouriteCity.lat}
-						style={{ display: "flex", justifyContent: "space-between" }}
-						onClick={() => handleCityClick(favouriteCity.name, favouriteCity.lat, favouriteCity.lon)}>
+						<ListGroup.Item
+							key={favouriteCity.lat}
+							style={{ display: "flex", justifyContent: "space-between" }}
+							onClick={() =>
+								handleCityClick(
+									favouriteCity.name,
+									favouriteCity.lat,
+									favouriteCity.lon
+								)
+							}>
 							<span>
-								{favouriteCity.name}, {favouriteCity.state && ` ${favouriteCity.state}`}, {favouriteCity.country}
+								{favouriteCity.name},{" "}
+								{favouriteCity.state && ` ${favouriteCity.state}`},{" "}
+								{favouriteCity.country}
 							</span>
 							<i
-							className="bi bi-bookmark-fill"
-							onClick={(e) => {
-								e.stopPropagation();
-								dispatch(removeCity(favouriteCity.lat));
-							}}></i>
+								className="bi bi-bookmark-fill"
+								onClick={(e) => {
+									e.stopPropagation();
+									dispatch(removeCity(favouriteCity.lat));
+								}}></i>
 						</ListGroup.Item>
 					))}
 				</ListGroup>
 			) : (
-				<p className="pt-3 text-center text-muted">No favourite cities added yet</p>
+				<p className="text-center text-muted italic-text">
+					No favourite cities added yet
+				</p>
 			)}
 			<hr />
 			<ListGroup>

@@ -15,7 +15,9 @@ const ChoseCityModal = ({
 }) => (
 	<Modal show={showModal} onHide={handleCloseModal}>
 		<Modal.Header closeButton>
-			<Modal.Title>Choose a city</Modal.Title>
+			<Modal.Title>
+				<h2 className="pt-2">Choose a city</h2>
+			</Modal.Title>
 		</Modal.Header>
 		<Modal.Body>
 			<CityAutocomplete
