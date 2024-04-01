@@ -1,5 +1,5 @@
 import "../css/App.css";
-import { Container, Row, Col, Card, Image } from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Slider from "react-slick";
@@ -63,7 +63,6 @@ const App = () => {
 	const [weatherConditions, setWeatherConditions] = useState({});
 	const [airPollution, setAirPollution] = useState({});
 	const [weeklyForecast, setWeeklyForecast] = useState({});
-	console.log(weatherConditions);
 
 	useEffect(() => {
 		const { lat, lon } = coordinates;

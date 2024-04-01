@@ -2,6 +2,8 @@
 
 This app can show you weather in the chosen city.
 
+[![Maintainability](https://api.codeclimate.com/v1/badges/ede57c6fe30cdfec96f6/maintainability)](https://codeclimate.com/github/MaxGre99/React-Weather-Forecast-App/maintainability)
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -47,6 +49,10 @@ Always show you your current time + GMT. Maybe I'll fix it later. (No, I tried, 
 ### Slider 
 
 Slider on the right shows you approximate weather for 5 next days. You can control the chosen day with arrows or swipe them.
+
+### Air Conditions
+
+Shows you current air conditions. Would like to synchronize it with Slider, but in free version of API found only current weather and 3-hours timestamps for 5 days, so the future conditions only could be approximately, don't like it
 
 ### Activities 
 
