@@ -12,6 +12,8 @@ import CurrDate from "./Date";
 import CurrTime from "./Time";
 import ChoseCityModal from "./ChoseCityModal";
 import ToastError from "./ToastError";
+import Slide from "./Slide";
+import ActivityCard from "./ActivityCard";
 
 // API Key
 const apiKey = "2a1415da8e78fd27494cf3257836cd32";
@@ -93,16 +95,6 @@ const App = () => {
 		getConditions();
 	}, [coordinates]);
 
-	//Превращение даты в день недели
-	const dateToWeekday = (fullDate) => {
-		const date = fullDate.slice(0, 10);
-		const newDate = new Date(date);
-		const options = { weekday: "short" };
-		return new Intl.DateTimeFormat("en-US", options)
-			.format(newDate)
-			.toUpperCase();
-	};
-
 	if (!loading) {
 		return (
 			<div className="app">
@@ -166,34 +158,10 @@ const App = () => {
 									<i className="bi bi-heart-fill"></i> Activities in your area
 								</h3>
 								<div className="d-flex activities-cards">
-									<Card>
-										<Card.Img variant="top" src={Fall} className="rounded" />
-										<Card.Footer>
-											<small>2km away</small>
-										</Card.Footer>
-									</Card>
-									<Card>
-										<Card.Img
-											variant="top"
-											src={Waterfall}
-											className="rounded"
-										/>
-										<Card.Footer>
-											<small>2km away</small>
-										</Card.Footer>
-									</Card>
-									<Card>
-										<Card.Img variant="top" src={Sakura} className="rounded" />
-										<Card.Footer>
-											<small>2km away</small>
-										</Card.Footer>
-									</Card>
-									<Card>
-										<Card.Img variant="top" src={River} className="rounded" />
-										<Card.Footer>
-											<small>2km away</small>
-										</Card.Footer>
-									</Card>
+									<ActivityCard pic={Fall} />
+									<ActivityCard pic={Waterfall} />
+									<ActivityCard pic={Sakura} />
+									<ActivityCard pic={River} />
 								</div>
 							</div>
 							<div className="emptySpace"></div>
@@ -208,36 +176,11 @@ const App = () => {
 						</Col>
 						<Col className="weekly d-flex" xs={12} sm={3} md={3} xl={3}>
 							<Slider {...sliderSettings}>
-								<div className="slickSlide">
-									<p>{dateToWeekday(weeklyForecast[0].dt_txt)}</p>
-									<Image
-										src={`https://openweathermap.org/img/wn/${weeklyForecast[0].weather[0].icon}@2x.png`}
-									/>
-								</div>
-								<div className="slickSlide">
-									<p>{dateToWeekday(weeklyForecast[1].dt_txt)}</p>
-									<Image
-										src={`https://openweathermap.org/img/wn/${weeklyForecast[1].weather[0].icon}@2x.png`}
-									/>
-								</div>
-								<div className="slickSlide">
-									<p>{dateToWeekday(weeklyForecast[2].dt_txt)}</p>
-									<Image
-										src={`https://openweathermap.org/img/wn/${weeklyForecast[2].weather[0].icon}@2x.png`}
-									/>
-								</div>
-								<div className="slickSlide">
-									<p>{dateToWeekday(weeklyForecast[3].dt_txt)}</p>
-									<Image
-										src={`https://openweathermap.org/img/wn/${weeklyForecast[3].weather[0].icon}@2x.png`}
-									/>
-								</div>
-								<div className="slickSlide">
-									<p>{dateToWeekday(weeklyForecast[4].dt_txt)}</p>
-									<Image
-										src={`https://openweathermap.org/img/wn/${weeklyForecast[4].weather[0].icon}@2x.png`}
-									/>
-								</div>
+								<Slide weeklyForecast={weeklyForecast} index={0} />
+								<Slide weeklyForecast={weeklyForecast} index={1} />
+								<Slide weeklyForecast={weeklyForecast} index={2} />
+								<Slide weeklyForecast={weeklyForecast} index={3} />
+								<Slide weeklyForecast={weeklyForecast} index={4} />
 							</Slider>
 							<p className="time">
 								<i className="bi bi-clock-fill"></i> <CurrTime />
